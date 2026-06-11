@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>USB's El Toro — Música Sin Límites</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{--gold:#c9a227;--gold2:#f0c040;--red:#cc0000;--dark:#0a0a0a;--dark2:#111;--dark3:#1a1a1a;--font:'Segoe UI',Arial,sans-serif;}
+body{background:var(--dark);color:#fff;font-family:var(--font);overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px;position:relative;overflow:hidden;background:radial-gradient(ellipse at center,#1a0000 0%,#000 70%);}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cpath d='M0 0h60v60H0z' fill='none'/%3E%3Ccircle cx='30' cy='30' r='1' fill='%23c9a22720'/%3E%3C/svg%3E");opacity:.5;}
+.hero-logo{width:220px;height:220px;border-radius:50%;border:3px solid var(--gold);box-shadow:0 0 40px rgba(201,162,39,.4),0 0 80px rgba(204,0,0,.2);margin-bottom:28px;animation:float 3s ease-in-out infinite;object-fit:cover;}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
+.hero h1{font-size:clamp(2.5rem,8vw,5rem);font-weight:900;letter-spacing:2px;background:linear-gradient(135deg,var(--gold2),#fff,var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-shadow:none;margin-bottom:8px;}
+.hero-sub{font-size:clamp(1rem,3vw,1.4rem);color:var(--gold);letter-spacing:4px;text-transform:uppercase;margin-bottom:24px;}
+.hero-tag{background:var(--red);color:#fff;padding:8px 24px;border-radius:30px;font-size:14px;font-weight:600;letter-spacing:2px;margin-bottom:40px;display:inline-block;}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;}
+.btn-wha{display:inline-flex;align-items:center;gap:8px;background:#25d366;color:#fff;padding:14px 28px;border-radius:50px;font-size:16px;font-weight:700;cursor:pointer;border:none;transition:transform .2s,box-shadow .2s;}
+.btn-wha:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(37,211,102,.4);}
+.btn-gold{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;padding:14px 28px;border-radius:50px;font-size:16px;font-weight:700;cursor:pointer;border:none;transition:transform .2s;}
+.btn-gold:hover{transform:translateY(-3px);}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(0,0,0,.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(201,162,39,.3);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+.nav-logo{font-size:20px;font-weight:900;color:var(--gold);}
+.nav-links{display:flex;gap:20px;flex-wrap:wrap;}
+.nav-links a{font-size:13px;color:#ccc;letter-spacing:1px;text-transform:uppercase;transition:color .2s;}
+.nav-links a:hover{color:var(--gold);}
+
+/* SECTIONS */
+section{padding:80px 20px;max-width:1100px;margin:0 auto;}
+.sec-title{font-size:clamp(1.8rem,5vw,3rem);font-weight:800;text-align:center;margin-bottom:12px;background:linear-gradient(135deg,var(--gold2),#fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.sec-sub{text-align:center;color:#888;font-size:15px;margin-bottom:50px;letter-spacing:2px;text-transform:uppercase;}
+.gold-line{width:80px;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold2));margin:12px auto 40px;border-radius:2px;}
+
+/* USB CARDS */
+.usb-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px;}
+.usb-card{background:var(--dark3);border-radius:20px;overflow:hidden;border:1px solid rgba(201,162,39,.2);transition:transform .3s,box-shadow .3s;position:relative;}
+.usb-card:hover{transform:translateY(-8px);box-shadow:0 20px 60px rgba(201,162,39,.2);}
+.usb-card-header{padding:28px 24px 20px;position:relative;overflow:hidden;}
+.usb-card-header::before{content:'';position:absolute;inset:0;opacity:.08;}
+.usb-icon{font-size:48px;margin-bottom:12px;display:block;}
+.usb-logo{width:80px;height:80px;border-radius:50%;object-fit:cover;margin-bottom:12px;border:2px solid var(--gold);display:block;}
+.usb-name{font-size:22px;font-weight:800;margin-bottom:4px;letter-spacing:1px;}
+.usb-songs{font-size:13px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;}
+.usb-price{font-size:36px;font-weight:900;color:var(--gold2);}
+.usb-price span{font-size:16px;font-weight:400;color:#888;}
+.usb-artists{padding:0 24px 24px;}
+.artists-title{font-size:12px;color:#666;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;padding-top:16px;border-top:1px solid rgba(255,255,255,.08);}
+.artists-grid{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px;}
+.artist-tag{background:rgba(201,162,39,.1);border:1px solid rgba(201,162,39,.2);color:#ccc;font-size:11px;padding:4px 10px;border-radius:20px;}
+.usb-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;background:#25d366;color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;transition:background .2s;}
+.usb-btn:hover{background:#1aaf55;}
+
+/* COLORS PER USB */
+.usb-vallenata .usb-card-header{background:linear-gradient(135deg,#1a0a2e,#0d1a2e);}
+.usb-vallenata .usb-name{color:#a78bfa;}
+.usb-reggaeton .usb-card-header{background:linear-gradient(135deg,#1a0a1a,#2e0d1a);}
+.usb-reggaeton .usb-name{color:#f472b6;}
+.usb-nortena .usb-card-header{background:linear-gradient(135deg,#1a1500,#2e2200);}
+.usb-nortena .usb-name{color:#fbbf24;}
+.usb-belica .usb-card-header{background:linear-gradient(135deg,#0a1a0a,#0d2e0d);}
+.usb-belica .usb-name{color:#4ade80;}
+.usb-regional .usb-card-header{background:linear-gradient(135deg,#1a0a00,#2e1500);}
+.usb-regional .usb-name{color:#fb923c;}
+.usb-personalizada .usb-card-header{background:linear-gradient(135deg,#0a0a1a,#1a0a1a);}
+.usb-personalizada .usb-name{color:var(--gold2);}
+
+/* DELIVERY MAP */
+#entregas{background:var(--dark2);padding:80px 20px;}
+.map-container{max-width:900px;margin:0 auto;}
+.map-3d{position:relative;height:400px;background:linear-gradient(135deg,#0a1a0a,#0d2e1a);border-radius:24px;overflow:hidden;border:1px solid rgba(201,162,39,.3);box-shadow:0 20px 60px rgba(0,0,0,.8);}
+.map-scene{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+
+/* Isometric map */
+.iso-map{position:relative;width:500px;height:300px;transform:rotateX(45deg) rotateZ(-30deg);transform-style:preserve-3d;}
+.iso-road-h{position:absolute;background:#2a2a2a;border-top:1px solid #444;border-bottom:1px solid #444;}
+.iso-road-v{position:absolute;background:#2a2a2a;border-left:1px solid #444;border-right:1px solid #444;}
+.iso-block{position:absolute;background:#1a3a1a;border:1px solid #2a4a2a;border-radius:2px;}
+
+.pin{position:absolute;display:flex;flex-direction:column;align-items:center;cursor:pointer;animation:bounce 2s ease-in-out infinite;}
+.pin:nth-child(2){animation-delay:.3s;}
+.pin:nth-child(3){animation-delay:.6s;}
+.pin:nth-child(4){animation-delay:.9s;}
+@keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+.pin-dot{width:18px;height:18px;background:var(--red);border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:2px solid #fff;box-shadow:0 2px 8px rgba(204,0,0,.6);}
+.pin-label{background:rgba(0,0,0,.85);color:#fff;font-size:10px;padding:3px 8px;border-radius:10px;white-space:nowrap;margin-top:4px;border:1px solid var(--gold);font-weight:600;}
+
+/* DELIVERY CARDS */
+.delivery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:32px;}
+.delivery-card{background:var(--dark3);border-radius:14px;padding:20px;border:1px solid rgba(201,162,39,.2);text-align:center;transition:transform .2s;}
+.delivery-card:hover{transform:translateY(-4px);border-color:var(--gold);}
+.delivery-icon{font-size:32px;margin-bottom:10px;}
+.delivery-name{font-size:15px;font-weight:700;color:var(--gold);margin-bottom:4px;}
+.delivery-addr{font-size:12px;color:#888;line-height:1.5;}
+
+/* FEATURES */
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;}
+.feature{background:var(--dark3);border-radius:16px;padding:28px 20px;text-align:center;border:1px solid rgba(201,162,39,.1);transition:border-color .2s;}
+.feature:hover{border-color:var(--gold);}
+.feature-icon{font-size:40px;margin-bottom:14px;}
+.feature h3{font-size:17px;font-weight:700;color:var(--gold);margin-bottom:8px;}
+.feature p{font-size:13px;color:#888;line-height:1.6;}
+
+/* PAYMENT */
+.payment-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;}
+.payment-card{background:var(--dark3);border-radius:14px;padding:20px 16px;text-align:center;border:1px solid rgba(201,162,39,.1);}
+.payment-icon{font-size:32px;margin-bottom:8px;}
+.payment-name{font-size:14px;font-weight:600;color:#ccc;}
+
+/* CTA FINAL */
+.cta-final{background:radial-gradient(ellipse at center,#1a0000,#000);padding:80px 20px;text-align:center;}
+.cta-final h2{font-size:clamp(2rem,5vw,3.5rem);font-weight:900;margin-bottom:16px;background:linear-gradient(135deg,var(--gold2),#fff,var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.cta-final p{font-size:18px;color:#888;margin-bottom:40px;}
+.btn-wha-big{display:inline-flex;align-items:center;gap:12px;background:#25d366;color:#fff;padding:18px 40px;border-radius:50px;font-size:20px;font-weight:800;cursor:pointer;border:none;transition:transform .2s,box-shadow .2s;animation:pulse-btn 2s infinite;}
+@keyframes pulse-btn{0%,100%{box-shadow:0 0 0 0 rgba(37,211,102,.4);}50%{box-shadow:0 0 0 20px rgba(37,211,102,0);}}
+.btn-wha-big:hover{transform:scale(1.05);}
+
+/* FOOTER */
+footer{background:#000;border-top:1px solid rgba(201,162,39,.2);padding:40px 20px;text-align:center;}
+footer p{color:#555;font-size:13px;}
+footer .footer-logo{font-size:24px;font-weight:900;color:var(--gold);margin-bottom:8px;}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+  .usb-grid{grid-template-columns:1fr;}
+  .iso-map{transform:rotateX(40deg) rotateZ(-25deg) scale(.7);}
+}
+
+/* SCROLL ANIM */
+.fade-in{opacity:0;transform:translateY(30px);transition:opacity .6s,transform .6s;}
+.fade-in.visible{opacity:1;transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">🐂 USB's El Toro</div>
+  <div class="nav-links">
+    <a href="#productos">Productos</a>
+    <a href="#entregas">Entregas</a>
+    <a href="#pagos">Pagos</a>
+    <a href="#contacto">Contacto</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <img class="hero-logo" src="https://i.imgur.com/placeholder.png" alt="USB El Toro" onerror="this.style.display='none';document.getElementById('hero-emoji').style.display='block'"/>
+  <div id="hero-emoji" style="font-size:100px;margin-bottom:28px;animation:float 3s ease-in-out infinite;display:none;">🐂</div>
+  <h1>USB's El Toro</h1>
+  <div class="hero-sub">La música que te mueve</div>
+  <div class="hero-tag">🎵 3,000 Canciones por USB · Solo $299</div>
+  <div class="hero-cta">
+    <button class="btn-wha" onclick="pedirWha('Hola! Me interesa una USB musical')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.849L.057 23.535a.75.75 0 00.921.916l5.85-1.53A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.946 0-3.772-.502-5.354-1.38l-.38-.217-3.948 1.033 1.05-3.85-.235-.395A9.956 9.956 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+      Pedir por WhatsApp
+    </button>
+    <button class="btn-gold" onclick="document.getElementById('productos').scrollIntoView({behavior:'smooth'})">
+      Ver Productos ↓
+    </button>
+  </div>
+</div>
+
+<!-- PRODUCTOS -->
+<section id="productos">
+  <div class="sec-title">Nuestras USBs</div>
+  <div class="sec-sub">Elige tu género favorito</div>
+  <div class="gold-line"></div>
+  <div class="usb-grid">
+
+    <!-- VALLENATA -->
+    <div class="usb-card usb-vallenata fade-in">
+      <div class="usb-card-header">
+        <span class="usb-icon">🎵</span>
+        <div class="usb-name">USB Vallenata</div>
+        <div class="usb-songs">💾 3,000 Canciones</div>
+        <div class="usb-price">$299 <span>MXN</span></div>
+      </div>
+      <div class="usb-artists">
+        <div class="artists-title">Artistas incluidos</div>
+        <div class="artists-grid">
+          <span class="artist-tag">Carlos Vives</span><span class="artist-tag">Silvestre Dangond</span><span class="artist-tag">Binomio de Oro</span><span class="artist-tag">Carlos Lizarraga</span><span class="artist-tag">Los Diablitos</span><span class="artist-tag">Peter Manjarrés</span><span class="artist-tag">Los Inquietos</span><span class="artist-tag">Iván Villazón</span><span class="artist-tag">Jorge Celedón</span><span class="artist-tag">El Charrito Negro</span><span class="artist-tag">Kaleth Morales</span><span class="artist-tag">Diomedes Díaz</span><span class="artist-tag">Carlos Vives</span><span class="artist-tag">Fonseca</span><span class="artist-tag">Herencia de Timbiquí</span><span class="artist-tag">Juancho de la Espriella</span><span class="artist-tag">Adriana Lucía</span><span class="artist-tag">Miguel Morales</span><span class="artist-tag">Beto Jamaica</span><span class="artist-tag">Los Chiches</span><span class="artist-tag">Poncho Zuleta</span><span class="artist-tag">Marciano Cantillo</span><span class="artist-tag">Jean Carlos Centeno</span><span class="artist-tag">Luifer Cuello</span><span class="artist-tag">Los Betos</span><span class="artist-tag">Felipe Peláez</span><span class="artist-tag">Pipe Peláez</span><span class="artist-tag">Omar Geles</span><span class="artist-tag">Rolando Ochoa</span><span class="artist-tag">Los Embajadores</span>
+        </div>
+        <button class="usb-btn" onclick="pedirWha('Hola! Quiero la USB Vallenata — $299')">
+          🛒 Pedir USB Vallenata — $299
+        </button>
+      </div>
+    </div>
+
+    <!-- REGGAETON -->
+    <div class="usb-card usb-reggaeton fade-in">
+      <div class="usb-card-header">
+        <span class="usb-icon">🎤</span>
+        <div class="usb-name">USB Reggaeton</div>
+        <div class="usb-songs">💾 3,000 Canciones</div>
+        <div class="usb-price">$299 <span>MXN</span></div>
+      </div>
+      <div class="usb-artists">
+        <div class="artists-title">Artistas incluidos</div>
+        <div class="artists-grid">
+          <span class="artist-tag">Bad Bunny</span><span class="artist-tag">J Balvin</span><span class="artist-tag">Daddy Yankee</span><span class="artist-tag">Ozuna</span><span class="artist-tag">Maluma</span><span class="artist-tag">Nicky Jam</span><span class="artist-tag">Anuel AA</span><span class="artist-tag">Karol G</span><span class="artist-tag">Reggaeton on</span><span class="artist-tag">Don Omar</span><span class="artist-tag">Wisin & Yandel</span><span class="artist-tag">Farruko</span><span class="artist-tag">Sech</span><span class="artist-tag">Rauw Alejandro</span><span class="artist-tag">Lunay</span><span class="artist-tag">Myke Towers</span><span class="artist-tag">Arcángel</span><span class="artist-tag">De La Ghetto</span><span class="artist-tag">Jhay Cortez</span><span class="artist-tag">Mora</span><span class="artist-tag">Nio García</span><span class="artist-tag">Jowell & Randy</span><span class="artist-tag">Yomo</span><span class="artist-tag">Alexio</span><span class="artist-tag">Ñengo Flow</span><span class="artist-tag">Almighty</span><span class="artist-tag">Bryant Myers</span><span class="artist-tag">Noriel</span><span class="artist-tag">Amenazzy</span><span class="artist-tag">Chris Jedi</span>
+        </div>
+        <button class="usb-btn" onclick="pedirWha('Hola! Quiero la USB Reggaeton — $299')">
+          🛒 Pedir USB Reggaeton — $299
+        </button>
+      </div>
+    </div>
+
+    <!-- NORTEÑA -->
+    <div class="usb-card usb-nortena fade-in">
+      <div class="usb-card-header">
+        <img class="usb-logo" src="data:image/jpeg;base64,/9j/4A" alt="Norteña" onerror="this.style.display='none';document.getElementById('nortena-icon').style.display='block'"/>
+        <span id="nortena-icon" class="usb-icon">🤠</span>
+        <div class="usb-name">USB Norteña</div>
+        <div class="usb-songs">💾 3,000 Canciones</div>
+        <div class="usb-price">$299 <span>MXN</span></div>
+      </div>
+      <div class="usb-artists">
+        <div class="artists-title">Artistas incluidos</div>
+        <div class="artists-grid">
+          <span class="artist-tag">Los Tigres del Norte</span><span class="artist-tag">Los Tucanes de Tijuana</span><span class="artist-tag">Banda MS</span><span class="artist-tag">El Chapo de Sinaloa</span><span class="artist-tag">Lupillo Rivera</span><span class="artist-tag">Vicente Fernández</span><span class="artist-tag">Joan Sebastian</span><span class="artist-tag">Los Yonics</span><span class="artist-tag">Los Bukis</span><span class="artist-tag">Intocable</span><span class="artist-tag">Ramón Ayala</span><span class="artist-tag">El Potro de Sinaloa</span><span class="artist-tag">Los Huracanes del Norte</span><span class="artist-tag">Cornelio Reyna</span><span class="artist-tag">Los Cadetes de Linares</span><span class="artist-tag">La Mafia</span><span class="artist-tag">Bronco</span><span class="artist-tag">Los Incomparables</span><span class="artist-tag">Pesado</span><span class="artist-tag">Límite</span><span class="artist-tag">Los Cardenales de Nuevo León</span><span class="artist-tag">El Komander</span><span class="artist-tag">Jenni Rivera</span><span class="artist-tag">Chalino Sánchez</span><span class="artist-tag">Los Rieleros del Norte</span><span class="artist-tag">Valentín Elizalde</span><span class="artist-tag">Marco Antonio Solís</span><span class="artist-tag">Paquita la del Barrio</span><span class="artist-tag">Ana Bárbara</span><span class="artist-tag">Banda El Recodo</span>
+        </div>
+        <button class="usb-btn" onclick="pedirWha('Hola! Quiero la USB Norteña — $299')">
+          🛒 Pedir USB Norteña — $299
+        </button>
+      </div>
+    </div>
+
+    <!-- BÉLICA -->
+    <div class="usb-card usb-belica fade-in">
+      <div class="usb-card-header">
+        <span class="usb-icon">⚔️</span>
+        <div class="usb-name">USB Bélica</div>
+        <div class="usb-songs">💾 3,000 Canciones</div>
+        <div class="usb-price">$299 <span>MXN</span></div>
+      </div>
+      <div class="usb-artists">
+        <div class="artists-title">Artistas incluidos</div>
+        <div class="artists-grid">
+          <span class="artist-tag">Peso Pluma</span><span class="artist-tag">Natanael Cano</span><span class="artist-tag">Eslabon Armado</span><span class="artist-tag">Junior H</span><span class="artist-tag">Fuerza Regida</span><span class="artist-tag">Grupo Frontera</span><span class="artist-tag">Los Alegres del Barranco</span><span class="artist-tag">Gabito Ballesteros</span><span class="artist-tag">Luis R Conriquez</span><span class="artist-tag">Yng Lvcas</span><span class="artist-tag">Oscar Maydon</span><span class="artist-tag">Xavi</span><span class="artist-tag">Tito Double P</span><span class="artist-tag">Chino Pacas</span><span class="artist-tag">Codiciado</span><span class="artist-tag">El Chino Ántrax</span><span class="artist-tag">Lenin Ramírez</span><span class="artist-tag">Babo</span><span class="artist-tag">Santa Fe Klan</span><span class="artist-tag">T3r Elemento</span><span class="artist-tag">Alzada</span><span class="artist-tag">Los Cuates de Sinaloa</span><span class="artist-tag">El Fantasma</span><span class="artist-tag">Virlan García</span><span class="artist-tag">Carin León</span><span class="artist-tag">Pancho Barraza</span><span class="artist-tag">Eden Muñoz</span><span class="artist-tag">Los Dos Carnales</span><span class="artist-tag">Banda Los Recoditos</span><span class="artist-tag">La Adictiva</span>
+        </div>
+        <button class="usb-btn" onclick="pedirWha('Hola! Quiero la USB Bélica — $299')">
+          🛒 Pedir USB Bélica — $299
+        </button>
+      </div>
+    </div>
+
+    <!-- REGIONAL MEXICANO -->
+    <div class="usb-card usb-regional fade-in">
+      <div class="usb-card-header">
+        <span class="usb-icon">🌵</span>
+        <div class="usb-name">USB Regional Mexicano</div>
+        <div class="usb-songs">💾 3,000 Canciones</div>
+        <div class="usb-price">$299 <span>MXN</span></div>
+      </div>
+      <div class="usb-artists">
+        <div class="artists-title">Artistas incluidos</div>
+        <div class="artists-grid">
+          <span class="artist-tag">Christian Nodal</span><span class="artist-tag">Banda MS</span><span class="artist-tag">Calibre 50</span><span class="artist-tag">La Arrolladora</span><span class="artist-tag">Julión Álvarez</span><span class="artist-tag">El Bebeto</span><span class="artist-tag">Banda El Recodo</span><span class="artist-tag">Los Ángeles Azules</span><span class="artist-tag">Larry Hernández</span><span class="artist-tag">Espinoza Paz</span><span class="artist-tag">Regulo Caro</span><span class="artist-tag">Gerardo Ortiz</span><span class="artist-tag">Banda Los Recoditos</span><span class="artist-tag">La Adictiva</span><span class="artist-tag">Noel Torres</span><span class="artist-tag">El Yaki</span><span class="artist-tag">Grupo Arriesgado</span><span class="artist-tag">Los Plebes del Rancho</span><span class="artist-tag">Banda Carnaval</span><span class="artist-tag">Los Padrinos de la Sierra</span><span class="artist-tag">Banda La Trakalosa</span><span class="artist-tag">Grupo Firme</span><span class="artist-tag">El Mimoso</span><span class="artist-tag">El Tigrillo Palma</span><span class="artist-tag">La Original Banda El Limón</span><span class="artist-tag">Banda Sinaloense</span><span class="artist-tag">Marco Flores</span><span class="artist-tag">El As de la Sierra</span><span class="artist-tag">Valentín Elizalde</span><span class="artist-tag">Los Tucanes</span>
+        </div>
+        <button class="usb-btn" onclick="pedirWha('Hola! Quiero la USB Regional Mexicano — $299')">
+          🛒 Pedir USB Regional Mexicano — $299
+        </button>
+      </div>
+    </div>
+
+    <!-- PERSONALIZADA -->
+    <div class="usb-card usb-personalizada fade-in">
+      <div class="usb-card-header">
+        <span class="usb-icon">⭐</span>
+        <div class="usb-name">USB Personalizada</div>
+        <div class="usb-songs">💾 3,000 Canciones · Todos los géneros</div>
+        <div class="usb-price">$299 <span>MXN</span></div>
+      </div>
+      <div class="usb-artists">
+        <div class="artists-title">Géneros disponibles</div>
+        <div class="artists-grid">
+          <span class="artist-tag">🎵 Vallenato</span><span class="artist-tag">🎤 Reggaeton</span><span class="artist-tag">🤠 Norteña</span><span class="artist-tag">⚔️ Bélica</span><span class="artist-tag">🌵 Regional Mexicano</span><span class="artist-tag">💃 Cumbia</span><span class="artist-tag">🎸 Rock en Español</span><span class="artist-tag">🎹 Pop Latino</span><span class="artist-tag">🎺 Banda</span><span class="artist-tag">🎻 Mariachi</span><span class="artist-tag">🌴 Tropical</span><span class="artist-tag">🎷 Salsa</span><span class="artist-tag">🥁 Merengue</span><span class="artist-tag">🎵 Bachata</span><span class="artist-tag">🎙️ Rap</span><span class="artist-tag">🎵 Corridos</span><span class="artist-tag">🎤 Urbano</span><span class="artist-tag">🎵 Grupero</span><span class="artist-tag">🎸 Ranchera</span><span class="artist-tag">🎵 Huapango</span><span class="artist-tag">💿 Disco</span><span class="artist-tag">🎵 Electrónica</span><span class="artist-tag">🎤 R&B</span><span class="artist-tag">🎵 Soul</span><span class="artist-tag">🎸 Metal</span><span class="artist-tag">🎵 Baladas</span><span class="artist-tag">🎤 K-Pop</span><span class="artist-tag">🎵 Trap</span><span class="artist-tag">🌍 Afrobeat</span><span class="artist-tag">🎵 Gospel</span>
+        </div>
+        <button class="usb-btn" onclick="pedirWha('Hola! Quiero una USB Personalizada — $299. Mis géneros favoritos son:')" style="background:linear-gradient(135deg,#c9a227,#f0c040);color:#000;">
+          ⭐ Personalizar mi USB — $299
+        </button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ENTREGAS -->
+<div id="entregas" style="background:var(--dark2);padding:80px 0;">
+<section style="max-width:1100px;margin:0 auto;padding:0 20px;">
+  <div class="sec-title">Zonas de Entrega</div>
+  <div class="sec-sub">Guadalupe, Nuevo León</div>
+  <div class="gold-line"></div>
+
+  <!-- MAPA 3D ANIMADO -->
+  <div class="map-3d">
+    <canvas id="mapCanvas" style="width:100%;height:100%;"></canvas>
+    <div style="position:absolute;top:20px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.8);padding:8px 20px;border-radius:20px;border:1px solid var(--gold);font-size:13px;color:var(--gold);letter-spacing:2px;font-weight:600;">📍 4 PUNTOS DE ENTREGA</div>
+  </div>
+
+  <div class="delivery-grid" style="margin-top:24px;">
+    <div class="delivery-card fade-in">
+      <div class="delivery-icon">🏬</div>
+      <div class="delivery-name">SunMall Guadalupe</div>
+      <div class="delivery-addr">Av. Pablo Livas 7601<br>Agua Nueva, Guadalupe</div>
+    </div>
+    <div class="delivery-card fade-in">
+      <div class="delivery-icon">🏪</div>
+      <div class="delivery-name">Paseo Juárez</div>
+      <div class="delivery-addr">Carr. Reynosa 1800<br>Villa Juárez, N.L.</div>
+    </div>
+    <div class="delivery-card fade-in">
+      <div class="delivery-icon">🏢</div>
+      <div class="delivery-name">Sendero San Roque</div>
+      <div class="delivery-addr">Av. Eloy Cavazos 101<br>Valle de Juárez</div>
+    </div>
+    <div class="delivery-card fade-in">
+      <div class="delivery-icon">🎪</div>
+      <div class="delivery-name">Expo Guadalupe</div>
+      <div class="delivery-addr">Av. El Aguaje 1201<br>La Hacienda, Guadalupe</div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- POR QUÉ ELEGIRNOS -->
+<section>
+  <div class="sec-title">¿Por qué elegirnos?</div>
+  <div class="gold-line"></div>
+  <div class="features-grid">
+    <div class="feature fade-in"><div class="feature-icon">💾</div><h3>3,000 Canciones</h3><p>La mayor colección musical por el menor precio del mercado</p></div>
+    <div class="feature fade-in"><div class="feature-icon">🎵</div><h3>Alta Calidad</h3><p>Todas las canciones en formato MP3 de alta calidad</p></div>
+    <div class="feature fade-in"><div class="feature-icon">⚡</div><h3>Entrega Rápida</h3><p>Entrega el mismo día en nuestros 4 puntos de Guadalupe</p></div>
+    <div class="feature fade-in"><div class="feature-icon">🔄</div><h3>Actualización</h3><p>Constantemente actualizamos con los últimos éxitos</p></div>
+    <div class="feature fade-in"><div class="feature-icon">💰</div><h3>Mejor Precio</h3><p>Solo $299 MXN — el precio más competitivo del mercado</p></div>
+    <div class="feature fade-in"><div class="feature-icon">🤝</div><h3>Garantía</h3><p>Si tu USB falla te la reponemos sin costo adicional</p></div>
+  </div>
+</section>
+
+<!-- PAGOS -->
+<div id="pagos" style="background:var(--dark2);padding:80px 0;">
+<section style="max-width:1100px;margin:0 auto;padding:0 20px;">
+  <div class="sec-title">Formas de Pago</div>
+  <div class="gold-line"></div>
+  <div class="payment-grid">
+    <div class="payment-card fade-in"><div class="payment-icon">💵</div><div class="payment-name">Efectivo</div></div>
+    <div class="payment-card fade-in"><div class="payment-icon">📱</div><div class="payment-name">Transferencia SPEI</div></div>
+    <div class="payment-card fade-in"><div class="payment-icon">🏦</div><div class="payment-name">Depósito Bancario</div></div>
+    <div class="payment-card fade-in"><div class="payment-icon">📲</div><div class="payment-name">Mercado Pago</div></div>
+    <div class="payment-card fade-in"><div class="payment-icon">💳</div><div class="payment-name">CoDi</div></div>
+    <div class="payment-card fade-in"><div class="payment-icon">🔵</div><div class="payment-name">PayPal</div></div>
+  </div>
+</section>
+</div>
+
+<!-- CTA FINAL -->
+<div class="cta-final" id="contacto">
+  <h2>¿Listo para tu USB?</h2>
+  <p>Escríbenos y te entregamos hoy mismo 🔥</p>
+  <button class="btn-wha-big" onclick="pedirWha('Hola! Quiero pedir una USB musical')">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.849L.057 23.535a.75.75 0 00.921.916l5.85-1.53A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.946 0-3.772-.502-5.354-1.38l-.38-.217-3.948 1.033 1.05-3.85-.235-.395A9.956 9.956 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+    Escribir al WhatsApp
+  </button>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">🐂 USB's El Toro</div>
+  <p>Guadalupe, Nuevo León, México</p>
+  <p style="margin-top:8px;">© 2025 USB's El Toro — Todos los derechos reservados</p>
+</footer>
+
+<script>
+// WHATSAPP
+function pedirWha(msg){
+  window.open('https://wa.me/528125656345?text='+encodeURIComponent(msg),'_blank');
+}
+
+// SCROLL ANIMATIONS
+var obs=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:.1});
+document.querySelectorAll('.fade-in').forEach(function(el){obs.observe(el);});
+
+// MAPA 3D ANIMADO CON CANVAS
+var canvas=document.getElementById('mapCanvas');
+var ctx=canvas.getContext('2d');
+canvas.width=canvas.offsetWidth||800;
+canvas.height=canvas.offsetHeight||400;
+
+var pins=[
+  {x:.35,y:.4,label:'SunMall',color:'#c9a227'},
+  {x:.65,y:.55,label:'Paseo Juárez',color:'#cc0000'},
+  {x:.5,y:.65,label:'Sendero SR',color:'#25d366'},
+  {x:.2,y:.3,label:'Expo Gdpe',color:'#a78bfa'},
+];
+var t=0;
+
+function drawMap(){
+  var w=canvas.width,h=canvas.height;
+  ctx.clearRect(0,0,w,h);
+  
+  // Background
+  var grad=ctx.createRadialGradient(w/2,h/2,0,w/2,h/2,w/2);
+  grad.addColorStop(0,'#0d2e0d');
+  grad.addColorStop(1,'#050f05');
+  ctx.fillStyle=grad;
+  ctx.fillRect(0,0,w,h);
+  
+  // Grid lines
+  ctx.strokeStyle='rgba(201,162,39,0.1)';
+  ctx.lineWidth=1;
+  for(var i=0;i<w;i+=40){ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,h);ctx.stroke();}
+  for(var j=0;j<h;j+=40){ctx.beginPath();ctx.moveTo(0,j);ctx.lineTo(w,j);ctx.stroke();}
+  
+  // Roads
+  ctx.strokeStyle='rgba(255,255,255,0.15)';
+  ctx.lineWidth=8;
+  [[0,h*.4,w,h*.4],[0,h*.6,w,h*.6],[w*.3,0,w*.3,h],[w*.6,0,w*.6,h]].forEach(function(r){
+    ctx.beginPath();ctx.moveTo(r[0],r[1]);ctx.lineTo(r[2],r[3]);ctx.stroke();
+  });
+  
+  // Blocks
+  ctx.fillStyle='rgba(201,162,39,0.05)';
+  [[w*.05,h*.05,w*.22,h*.32],[w*.35,h*.05,w*.22,h*.32],[w*.65,h*.05,w*.28,h*.32],
+   [w*.05,h*.45,w*.22,h*.15],[w*.65,h*.45,w*.28,h*.15]].forEach(function(b){
+    ctx.fillRect(b[0],b[1],b[2],b[3]);
+  });
+
+  // Pins
+  pins.forEach(function(p,i){
+    var x=p.x*w, y=p.y*h;
+    var bounce=Math.sin(t*0.05+i*1.2)*6;
+    
+    // Pulse ring
+    var pulse=(Math.sin(t*0.04+i)+1)/2;
+    ctx.beginPath();
+    ctx.arc(x,y+10,12+pulse*12,0,Math.PI*2);
+    ctx.strokeStyle=p.color+'60';
+    ctx.lineWidth=2;
+    ctx.stroke();
+    
+    // Pin shadow
+    ctx.beginPath();
+    ctx.ellipse(x,y+12,8,3,0,0,Math.PI*2);
+    ctx.fillStyle='rgba(0,0,0,0.4)';
+    ctx.fill();
+    
+    // Pin body
+    ctx.beginPath();
+    ctx.arc(x,y-10+bounce,14,0,Math.PI*2);
+    ctx.fillStyle=p.color;
+    ctx.fill();
+    ctx.strokeStyle='#fff';
+    ctx.lineWidth=2;
+    ctx.stroke();
+    
+    // Pin inner
+    ctx.beginPath();
+    ctx.arc(x,y-10+bounce,6,0,Math.PI*2);
+    ctx.fillStyle='rgba(255,255,255,0.8)';
+    ctx.fill();
+    
+    // Pin stem
+    ctx.beginPath();
+    ctx.moveTo(x-2,y-bounce);
+    ctx.lineTo(x+2,y-bounce);
+    ctx.lineTo(x,y+14-bounce);
+    ctx.closePath();
+    ctx.fillStyle=p.color;
+    ctx.fill();
+    
+    // Label
+    ctx.fillStyle='rgba(0,0,0,0.85)';
+    var lw=ctx.measureText(p.label).width+20;
+    ctx.roundRect?ctx.roundRect(x-lw/2,y-40+bounce,lw,22,6):ctx.rect(x-lw/2,y-40+bounce,lw,22);
+    ctx.fill();
+    ctx.strokeStyle=p.color;
+    ctx.lineWidth=1;
+    ctx.stroke();
+    ctx.fillStyle='#fff';
+    ctx.font='bold 11px sans-serif';
+    ctx.textAlign='center';
+    ctx.fillText(p.label,x,y-24+bounce);
+  });
+  
+  // Logo text
+  ctx.fillStyle='rgba(201,162,39,0.6)';
+  ctx.font='bold 14px sans-serif';
+  ctx.textAlign='center';
+  ctx.fillText('🐂 USB\'s El Toro — Guadalupe, N.L.',w/2,h-16);
+  
+  t++;
+  requestAnimationFrame(drawMap);
+}
+
+window.addEventListener('resize',function(){
+  canvas.width=canvas.offsetWidth;
+  canvas.height=canvas.offsetHeight;
+});
+
+drawMap();
+</script>
+</body>
+</html>
